@@ -1,10 +1,14 @@
 package com.fzanutto.dota2heroes.viewmodel
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.fzanutto.dota2heroes.model.Hero
 import com.fzanutto.dota2heroes.repository.ApiConnection
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainViewModel(private val api: ApiConnection): ViewModel() {
 
@@ -15,10 +19,12 @@ class MainViewModel(private val api: ApiConnection): ViewModel() {
 
     }
 
-    private val _heroList = MutableLiveData<List<Hero>>()
-    val heroList = _heroList
+    val heroList = mutableStateListOf<Hero>()
 
-    suspend fun loadHeroList() {
-        heroList.postValue(api.getHeroesList())
+
+    fun loadHeroList() {
+        viewModelScope.launch(Dispatchers.IO) {
+            heroList.addAll(api.getHeroesList())
+        }
     }
 }
