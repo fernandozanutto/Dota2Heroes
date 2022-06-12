@@ -3,6 +3,7 @@ package com.fzanutto.dota2heroes
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -24,6 +25,7 @@ import com.fzanutto.dota2heroes.model.Hero
 import com.fzanutto.dota2heroes.repository.MockApi
 import com.fzanutto.dota2heroes.ui.theme.Dota2HeroesTheme
 import com.fzanutto.dota2heroes.viewmodel.MainViewModel
+import com.skydoves.landscapist.glide.GlideImage
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +65,13 @@ fun HeroList(viewModel: MainViewModel) {
 @Composable
 fun HeroItem(hero: Hero) {
     Row {
-        Text(hero.name)
+        Box(modifier = Modifier
+            .weight(0.5f)) {
+            GlideImage(imageModel = hero.img)
+        }
+        Column(modifier = Modifier.weight(0.5f)) {
+            Text(hero.name)
+        }
     }
 
 }
