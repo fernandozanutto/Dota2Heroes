@@ -19,7 +19,6 @@ object HeroesRepositoryImpl: IHeroesRepository {
 
     override suspend fun getHeroList(): List<Hero> {
         val apiReturn = api.getHeroesList()
-        Log.d("VIEWODEL", "${apiReturn.isSuccessful}")
         if (!apiReturn.isSuccessful) return listOf()
 
         return apiReturn.body()?.map { it.toHero() } ?: listOf()

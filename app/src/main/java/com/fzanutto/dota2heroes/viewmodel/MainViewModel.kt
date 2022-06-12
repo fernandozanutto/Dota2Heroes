@@ -26,7 +26,6 @@ class MainViewModel(private val repository: IHeroesRepository): ViewModel() {
             heroList.clear()
 
             val heroes = repository.getHeroList()
-            Log.d("VIEWODEL", heroes.size.toString())
             heroList.addAll(heroes)
         }
     }
