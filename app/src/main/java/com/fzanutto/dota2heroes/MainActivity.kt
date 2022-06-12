@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fzanutto.dota2heroes.model.Hero
-import com.fzanutto.dota2heroes.repository.MockApi
+import com.fzanutto.dota2heroes.repository.MockRepository
 import com.fzanutto.dota2heroes.ui.theme.Dota2HeroesTheme
 import com.fzanutto.dota2heroes.viewmodel.MainViewModel
 import com.skydoves.landscapist.glide.GlideImage
@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Dota2HeroesTheme {
-                val viewModel = viewModel<MainViewModel>(factory = MainViewModel.MainViewModelFactory(MockApi()))
+                val viewModel = viewModel<MainViewModel>(factory = MainViewModel.MainViewModelFactory(MockRepository))
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
                     Column(modifier = Modifier
                         .fillMaxSize()
