@@ -1,5 +1,6 @@
 package com.fzanutto.dota2heroes.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -22,7 +23,11 @@ class MainViewModel(private val repository: IHeroesRepository): ViewModel() {
 
     fun loadHeroList() {
         viewModelScope.launch(Dispatchers.IO) {
-            heroList.addAll(repository.getHeroList())
+            heroList.clear()
+
+            val heroes = repository.getHeroList()
+            Log.d("VIEWODEL", heroes.size.toString())
+            heroList.addAll(heroes)
         }
     }
 }

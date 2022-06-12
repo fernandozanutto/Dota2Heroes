@@ -5,6 +5,6 @@ import retrofit2.Response
 import retrofit2.http.GET
 
 interface DotaApi: ApiConnection {
-    @GET("/heroStats")
+    @GET("api/heroStats")
     override suspend fun getHeroesList(): Response<List<HeroDTO>>
 }
