@@ -23,12 +23,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fzanutto.dota2heroes.R
 import com.fzanutto.dota2heroes.model.Hero
-import com.fzanutto.dota2heroes.model.PrimaryAttribute
 import com.skydoves.landscapist.glide.GlideImage
 
 
@@ -74,12 +72,4 @@ fun HeroItem(hero: Hero) {
 
         }
     }
-}
-
-@Preview
-@Composable
-fun PreviewHeroItem() {
-    val hero = Hero(1, "Anti-Mage", PrimaryAttribute.Agi, listOf("Carry"), 2)
-
-    HeroItem(hero)
 }

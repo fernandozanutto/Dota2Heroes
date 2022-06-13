@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object HeroesRepositoryImpl: IHeroesRepository {
-    val baseUrl = "https://api.opendota.com/"
+    private const val baseUrl = "https://api.opendota.com/"
 
     override val api: DotaApi by lazy {
         Retrofit.Builder()
