@@ -20,7 +20,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarScrollState
@@ -29,7 +28,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
@@ -43,6 +41,7 @@ import androidx.navigation.NavController
 import com.fzanutto.dota2heroes.R
 import com.fzanutto.dota2heroes.model.Hero
 import com.fzanutto.dota2heroes.navigation.NavScreens
+import com.fzanutto.dota2heroes.ui.components.BaseTopBar
 import com.fzanutto.dota2heroes.viewmodel.MainViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
@@ -56,10 +55,9 @@ fun HeroListScreen(
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            SmallTopAppBar(
-                title = { Text("Dota 2 Hero List", color = Color.White) },
+            BaseTopBar(
+                titleText = "Dota 2 Hero List",
                 scrollBehavior = scrollBehavior,
-                colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFFF74942)),
                 actions = {
                     Button(
                         onClick = {
@@ -83,10 +81,14 @@ fun HeroListScreen(
             Box(
                 modifier = Modifier
                     .padding(innerPadding)
-                    .padding(horizontal = 12.dp)
             ) {
-                HeroList(viewModel.heroList.toList()) {
-                    navController.navigate(NavScreens.HeroDetails.createRoute(it.id))
+                Box(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp, vertical = 8.dp)
+                ) {
+                    HeroList(viewModel.heroList.toList()) {
+                        navController.navigate(NavScreens.HeroDetails.createRoute(it.id))
+                    }
                 }
             }
         }
@@ -98,7 +100,7 @@ fun HeroList(heroList: List<Hero>, onClick: (Hero) -> Unit) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(heroList) { item ->
             HeroItem(item, onClick)
