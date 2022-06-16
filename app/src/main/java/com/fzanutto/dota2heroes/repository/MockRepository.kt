@@ -3,7 +3,7 @@ package com.fzanutto.dota2heroes.repository
 import com.fzanutto.dota2heroes.model.Hero
 import com.fzanutto.dota2heroes.network.MockApi
 
-object MockRepository: IHeroesRepository {
+object MockRepository : IHeroesRepository {
 
     override val api: MockApi by lazy {
         MockApi()

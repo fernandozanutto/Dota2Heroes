@@ -29,14 +29,13 @@ import com.fzanutto.dota2heroes.R
 import com.fzanutto.dota2heroes.model.Hero
 import com.skydoves.landscapist.glide.GlideImage
 
-
 @Composable
 fun HeroList(heroList: List<Hero>) {
-    LazyColumn (
+    LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        items(heroList){ item ->
+        items(heroList) { item ->
             HeroItem(item)
         }
     }
@@ -44,7 +43,7 @@ fun HeroList(heroList: List<Hero>) {
 
 @Composable
 fun HeroItem(hero: Hero) {
-    Row (
+    Row(
         modifier = Modifier.wrapContentHeight(),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -62,14 +61,13 @@ fun HeroItem(hero: Hero) {
 
         Column(modifier = Modifier) {
             Text(hero.name, fontSize = 24.sp)
-            Row (verticalAlignment = Alignment.CenterVertically){
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(painter = painterResource(id = hero.primaryAttribute.getIcon()), contentDescription = "${hero.primaryAttribute.toString(LocalContext.current)} icon")
 
                 Spacer(Modifier.size(4.dp))
 
                 Text(hero.primaryAttribute.toString(LocalContext.current), fontSize = 16.sp)
             }
-
         }
     }
 }

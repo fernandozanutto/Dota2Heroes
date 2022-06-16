@@ -3,7 +3,7 @@ package com.fzanutto.dota2heroes.network
 import com.fzanutto.dota2heroes.model.Hero
 import com.fzanutto.dota2heroes.model.PrimaryAttribute
 
-class MockApi: ApiConnection {
+class MockApi : ApiConnection {
 
     private val heroList = listOf(
         Hero(1, "Anti-Mage", PrimaryAttribute.Agi, listOf("Carry"), 2),

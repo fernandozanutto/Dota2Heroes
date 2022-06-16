@@ -1,12 +1,11 @@
 package com.fzanutto.dota2heroes.repository
 
-import android.util.Log
 import com.fzanutto.dota2heroes.model.Hero
 import com.fzanutto.dota2heroes.network.DotaApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object HeroesRepositoryImpl: IHeroesRepository {
+object HeroesRepositoryImpl : IHeroesRepository {
     private const val baseUrl = "https://api.opendota.com/"
 
     override val api: DotaApi by lazy {
@@ -23,5 +22,4 @@ object HeroesRepositoryImpl: IHeroesRepository {
 
         return apiReturn.body()?.map { it.toHero() } ?: listOf()
     }
-
 }

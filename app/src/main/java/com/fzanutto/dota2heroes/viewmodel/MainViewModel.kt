@@ -10,13 +10,12 @@ import com.fzanutto.dota2heroes.repository.IHeroesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val repository: IHeroesRepository): ViewModel() {
+class MainViewModel(private val repository: IHeroesRepository) : ViewModel() {
 
-    class MainViewModelFactory(private val repository: IHeroesRepository): ViewModelProvider.NewInstanceFactory() {
+    class MainViewModelFactory(private val repository: IHeroesRepository) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass.getConstructor(IHeroesRepository::class.java).newInstance(repository)
         }
-
     }
 
     val heroList = mutableStateListOf<Hero>()
