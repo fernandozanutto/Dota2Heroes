@@ -59,10 +59,21 @@ data class HeroDTO(
         return Hero(
             id,
             localized_name,
-            PrimaryAttribute.fromString(primary_attr),
+            HeroAttribute.fromString(primary_attr),
             roles,
             legs, "https://api.opendota.com$img",
-            "https://api.opendota.com$icon"
+            "https://api.opendota.com$icon",
+            move_speed,
+            base_str,
+            base_agi,
+            base_int,
+            str_gain,
+            agi_gain,
+            int_gain,
+            AttackType.fromString(attack_type),
+            attack_range,
+            base_attack_min,
+            base_attack_max
         )
     }
 }

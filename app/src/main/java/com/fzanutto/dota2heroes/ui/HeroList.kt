@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
@@ -56,7 +57,7 @@ fun HeroListScreen(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             BaseTopBar(
-                titleText = "Dota 2 Hero List",
+                title = { Text("Dota 2 Hero List", color = Color.White) },
                 scrollBehavior = scrollBehavior,
                 actions = {
                     Button(

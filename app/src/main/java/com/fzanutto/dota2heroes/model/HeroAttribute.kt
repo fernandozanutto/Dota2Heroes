@@ -3,14 +3,14 @@ package com.fzanutto.dota2heroes.model
 import android.content.Context
 import com.fzanutto.dota2heroes.R
 
-enum class PrimaryAttribute(val value: String) {
+enum class HeroAttribute(val value: String) {
     Agi("agi"),
     Str("str"),
     Int("int"),
     Unknown("");
 
     companion object {
-        fun fromString(attrName: String): PrimaryAttribute {
+        fun fromString(attrName: String): HeroAttribute {
             return values().find { it.value == attrName } ?: Unknown
         }
     }
