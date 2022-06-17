@@ -5,7 +5,6 @@ import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 
 @Composable
 fun BaseTopBar(
@@ -17,7 +16,7 @@ fun BaseTopBar(
     SmallTopAppBar(
         title = title,
         scrollBehavior = scrollBehavior,
-        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFFF74942)),
+        colors = TopAppBarDefaults.smallTopAppBarColors(),
         actions = actions,
         navigationIcon = navigationIcon
     )

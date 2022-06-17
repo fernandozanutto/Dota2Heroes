@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -28,7 +29,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
@@ -37,7 +37,6 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.fzanutto.dota2heroes.R
 import com.fzanutto.dota2heroes.model.Hero
@@ -57,7 +56,7 @@ fun HeroListScreen(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             BaseTopBar(
-                title = { Text("Dota 2 Hero List", color = Color.White) },
+                title = { Text("Dota 2 Hero List") },
                 scrollBehavior = scrollBehavior,
                 actions = {
                     Button(
@@ -83,13 +82,8 @@ fun HeroListScreen(
                 modifier = Modifier
                     .padding(innerPadding)
             ) {
-                Box(
-                    modifier = Modifier
-                        .padding(horizontal = 8.dp, vertical = 8.dp)
-                ) {
-                    HeroList(viewModel.heroList.toList()) {
-                        navController.navigate(NavScreens.HeroDetails.createRoute(it.id))
-                    }
+                HeroList(viewModel.heroList.toList()) {
+                    navController.navigate(NavScreens.HeroDetails.createRoute(it.id))
                 }
             }
         }
@@ -99,9 +93,8 @@ fun HeroListScreen(
 @Composable
 fun HeroList(heroList: List<Hero>, onClick: (Hero) -> Unit) {
     LazyColumn(
-        modifier = Modifier
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         items(heroList) { item ->
             HeroItem(item, onClick)
@@ -114,6 +107,8 @@ fun HeroItem(hero: Hero, onClick: (Hero) -> Unit) {
     Row(
         modifier = Modifier
             .wrapContentHeight()
+            .fillMaxWidth()
+            .padding(8.dp)
             .clickable {
                 onClick(hero)
             },

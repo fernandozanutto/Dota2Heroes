@@ -2,6 +2,6 @@
 <resources>
 
     <style name="Theme.Dota2Heroes" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/valve_red</item>
+        <item name="android:statusBarColor">@color/red</item>
     </style>
 </resources>

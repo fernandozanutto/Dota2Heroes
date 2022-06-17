@@ -12,6 +12,7 @@ import com.fzanutto.dota2heroes.navigation.NavScreens
 import com.fzanutto.dota2heroes.repository.HeroesRepositoryImpl
 import com.fzanutto.dota2heroes.ui.HeroDetailsScreen
 import com.fzanutto.dota2heroes.ui.HeroListScreen
+import com.fzanutto.dota2heroes.ui.theme.AppTheme
 import com.fzanutto.dota2heroes.viewmodel.MainViewModel
 
 class MainActivity : ComponentActivity() {
@@ -19,25 +20,29 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val navController = rememberNavController()
-            val viewModel = viewModel<MainViewModel>(
-                factory = MainViewModel.MainViewModelFactory(
-                    HeroesRepositoryImpl
+            AppTheme {
+                val navController = rememberNavController()
+                val viewModel = viewModel<MainViewModel>(
+                    factory = MainViewModel.MainViewModelFactory(
+                        HeroesRepositoryImpl
+                    )
                 )
-            )
 
-            LaunchedEffect(Unit, block = {
-                viewModel.loadHeroList()
-            })
+                LaunchedEffect(Unit, block = {
+                    viewModel.loadHeroList()
+                })
 
-            NavHost(navController, startDestination = NavScreens.HeroList.route) {
-                composable(route = NavScreens.HeroList.route) {
-                    HeroListScreen(viewModel, navController)
-                }
-                composable(route = NavScreens.HeroDetails.route) {
-                    val heroId = it.arguments?.getString("heroId")
-                    requireNotNull(heroId)
-                    HeroDetailsScreen(heroId = heroId.toInt(), viewModel, navController)
+                NavHost(navController, startDestination = NavScreens.HeroList.route) {
+                    composable(route = NavScreens.HeroList.route) {
+                        HeroListScreen(viewModel, navController)
+                    }
+                    composable(route = NavScreens.HeroDetails.route) {
+                        val heroId = it.arguments?.getString("heroId")
+                        requireNotNull(heroId)
+
+                        val hero = viewModel.getHero(heroId.toInt())
+                        HeroDetailsScreen(hero = hero, navController)
+                    }
                 }
             }
         }

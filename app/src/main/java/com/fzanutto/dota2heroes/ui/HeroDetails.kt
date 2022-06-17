@@ -2,17 +2,13 @@ package com.fzanutto.dota2heroes.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -25,9 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
@@ -40,44 +34,30 @@ import com.fzanutto.dota2heroes.model.AttackType
 import com.fzanutto.dota2heroes.model.Hero
 import com.fzanutto.dota2heroes.model.HeroAttribute
 import com.fzanutto.dota2heroes.ui.components.BaseTopBar
-import com.fzanutto.dota2heroes.viewmodel.MainViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HeroDetailsScreen(
-    heroId: Int,
-    viewModel: MainViewModel,
+    hero: Hero?,
     navController: NavController
 ) {
-    val hero = viewModel.heroList.find { it.id == heroId } ?: run {
+    hero ?: run {
         navController.popBackStack()
         return
     }
 
     Scaffold(
-        modifier = Modifier,
         topBar = {
             BaseTopBar(
                 title = {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(hero.name, color = Color.White)
-
-                        Spacer(modifier = Modifier.size(12.dp))
-
-                        GlideImage(
-                            imageModel = hero.icon,
-                            modifier = Modifier
-                                .size(28.dp)
-                        )
-                    }
+                    Text(hero.name, fontWeight = FontWeight.Bold)
                 },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "Go back",
-                            tint = Color.White,
+                            contentDescription = "Go back"
                         )
                     }
                 }
@@ -85,8 +65,13 @@ fun HeroDetailsScreen(
         },
         content = { innerPadding ->
             Column(
-                modifier = Modifier.padding(innerPadding)
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxHeight()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.Top
             ) {
+                HeroImage(hero)
                 HeroDetails(hero)
             }
         }
@@ -94,26 +79,47 @@ fun HeroDetailsScreen(
 }
 
 @Composable
+private fun HeroImage(hero: Hero) {
+    GlideImage(
+        imageModel = hero.img,
+        placeHolder = ImageBitmap.imageResource(R.drawable.dota_logo)
+    )
+}
+
+@Composable
 fun HeroDetails(hero: Hero) {
-    Column(
-        modifier = Modifier
-            .fillMaxHeight()
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.Top
-    ) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Text(hero.name, fontSize = 24.sp)
+
+        Spacer(modifier = Modifier.size(12.dp))
+
         GlideImage(
-            imageModel = hero.img,
-            placeHolder = ImageBitmap.imageResource(R.drawable.dota_logo)
+            imageModel = hero.icon,
+            modifier = Modifier
+                .size(28.dp)
         )
+    }
 
-        Column(modifier = Modifier.padding(horizontal = 8.dp)) {
-            MoveStats(hero)
+    Column {
+        Row(
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier.padding(top = 32.dp).fillMaxWidth()
+        ) {
+            Column {
+                MoveStats(hero)
 
-            AttackRangeStats(hero)
+                AttackRangeStats(hero)
 
-            AttributeStats(hero, HeroAttribute.Str, hero.primaryAttribute == HeroAttribute.Str)
-            AttributeStats(hero, HeroAttribute.Agi, hero.primaryAttribute == HeroAttribute.Agi)
-            AttributeStats(hero, HeroAttribute.Int, hero.primaryAttribute == HeroAttribute.Int)
+                Row {
+                    Text("${hero.baseAttackMin} - ${hero.baseAttackMax}", fontSize = 24.sp)
+                }
+            }
+
+            Column {
+                AttributeStats(hero, HeroAttribute.Str, hero.primaryAttribute == HeroAttribute.Str)
+                AttributeStats(hero, HeroAttribute.Agi, hero.primaryAttribute == HeroAttribute.Agi)
+                AttributeStats(hero, HeroAttribute.Int, hero.primaryAttribute == HeroAttribute.Int)
+            }
         }
     }
 }
@@ -134,8 +140,7 @@ private fun MoveStats(hero: Hero) {
 @Composable
 fun AttackRangeStats(hero: Hero) {
     Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.height(40.dp)
+        verticalAlignment = Alignment.CenterVertically
     ) {
         val resource = when (hero.attackType) {
             AttackType.Melee -> {
@@ -149,7 +154,11 @@ fun AttackRangeStats(hero: Hero) {
             }
         }
 
-        Image(painter = resource, contentDescription = "Ranged", modifier = Modifier.size(24.dp))
+        Image(
+            painter = resource,
+            contentDescription = null,
+            modifier = Modifier.size(24.dp)
+        )
         Spacer(modifier = Modifier.size(4.dp))
         Text("${hero.attackRange}", fontSize = 24.sp)
     }
@@ -167,9 +176,10 @@ fun AttributeStats(hero: Hero, attribute: HeroAttribute, isPrimary: Boolean) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Image(
             painter = painterResource(id = attribute.getIcon()),
-            contentDescription = attribute.toString(LocalContext.current)
+            contentDescription = attribute.toString(LocalContext.current),
+            modifier = Modifier.size(24.dp)
         )
         Spacer(modifier = Modifier.size(4.dp))
-        Text(text, fontSize = 20.sp, fontWeight = if (isPrimary) FontWeight.Bold else null)
+        Text(text, fontSize = 24.sp, fontWeight = if (isPrimary) FontWeight.Bold else null)
     }
 }

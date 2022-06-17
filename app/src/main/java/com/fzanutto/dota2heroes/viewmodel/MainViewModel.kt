@@ -23,7 +23,13 @@ class MainViewModel(private val repository: IHeroesRepository) : ViewModel() {
     val sortBy = mutableStateOf("ID")
     val sortOrder = mutableStateOf(true)
 
+    fun getHero(id: Int): Hero? {
+        return heroList.find { it.id == id }
+    }
+
     fun loadHeroList() {
+        if (heroList.isNotEmpty()) return
+
         viewModelScope.launch(Dispatchers.IO) {
             heroList.clear()
 
