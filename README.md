@@ -14,3 +14,4 @@ Fetching Dota 2 heroes from [Dota 2 Open Api](https://docs.opendota.com/#tag/her
 - [Jetpack Compose](https://developer.android.com/jetpack/compose) - Android’s modern toolkit for building native UI.
 - [Landscapist](https://github.com/skydoves/Landscapist) - Jetpack Compose image loading library which fetches and displays network images with Glide, Coil, and Fresco. In this project I used Glide.
 - [Material Design 3](https://developer.android.com/jetpack/androidx/releases/compose-material3) - Material Design 3 for Jetpack Compose.
+- [Ktlint](https://github.com/jlleitschuh/ktlint-gradle) - A Kotlin linter.
