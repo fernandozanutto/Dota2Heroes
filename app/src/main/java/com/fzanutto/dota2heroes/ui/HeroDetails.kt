@@ -2,13 +2,16 @@ package com.fzanutto.dota2heroes.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -88,34 +91,39 @@ private fun HeroImage(hero: Hero) {
 
 @Composable
 fun HeroDetails(hero: Hero) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Text(hero.name, fontSize = 24.sp)
-
-        Spacer(modifier = Modifier.size(12.dp))
-
-        GlideImage(
-            imageModel = hero.icon,
-            modifier = Modifier
-                .size(28.dp)
-        )
-    }
-
-    Column {
+    Column(Modifier.padding(horizontal = 32.dp, vertical = 8.dp)) {
         Row(
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier.padding(top = 32.dp).fillMaxWidth()
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .wrapContentHeight()
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Column {
+            Text(hero.name, fontSize = 32.sp)
+
+            GlideImage(
+                imageModel = hero.icon,
+                modifier = Modifier.size(32.dp)
+            )
+        }
+
+        Spacer(Modifier.size(16.dp))
+
+        Text("Base stats", fontSize = 24.sp)
+
+        Spacer(Modifier.size(8.dp))
+
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 MoveStats(hero)
-
                 AttackRangeStats(hero)
-
-                Row {
-                    Text("${hero.baseAttackMin} - ${hero.baseAttackMax}", fontSize = 24.sp)
-                }
+                AttackDamageStats(hero)
             }
 
-            Column {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 AttributeStats(hero, HeroAttribute.Str, hero.primaryAttribute == HeroAttribute.Str)
                 AttributeStats(hero, HeroAttribute.Agi, hero.primaryAttribute == HeroAttribute.Agi)
                 AttributeStats(hero, HeroAttribute.Int, hero.primaryAttribute == HeroAttribute.Int)
@@ -125,15 +133,33 @@ fun HeroDetails(hero: Hero) {
 }
 
 @Composable
+private fun AttackDamageStats(hero: Hero) {
+    Row {
+        Box(modifier = Modifier.size(24.dp)) {
+            Image(
+                painter = painterResource(id = R.drawable.icon_damage),
+                contentDescription = "Move speed",
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+
+        Spacer(modifier = Modifier.size(8.dp))
+        Text("${hero.baseAttackMin} - ${hero.baseAttackMax}", fontSize = 20.sp)
+    }
+}
+
+@Composable
 private fun MoveStats(hero: Hero) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Image(
-            painter = painterResource(id = R.drawable.movespeed_icon),
-            contentDescription = "Move speed",
-            modifier = Modifier.size(32.dp)
-        )
-        Spacer(modifier = Modifier.size(4.dp))
-        Text(hero.moveSpeed.toString(), fontSize = 24.sp)
+        Box(modifier = Modifier.size(24.dp)) {
+            Image(
+                painter = painterResource(id = R.drawable.icon_movement_speed),
+                contentDescription = "Move speed",
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+        Spacer(modifier = Modifier.size(8.dp))
+        Text(hero.moveSpeed.toString(), fontSize = 20.sp)
     }
 }
 
@@ -150,17 +176,28 @@ fun AttackRangeStats(hero: Hero) {
                 painterResource(id = R.drawable.ranged_icon)
             }
             AttackType.Unknown -> {
-                painterResource(id = R.drawable.dota_logo)
+                painterResource(id = 0)
             }
         }
 
+        Box(modifier = Modifier.size(24.dp)) {
+            Image(
+                painter = painterResource(id = R.drawable.icon_attack_range),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+
+        Spacer(modifier = Modifier.size(8.dp))
+        Text("${hero.attackRange}", fontSize = 20.sp)
+        Spacer(modifier = Modifier.size(4.dp))
+        Text("( ", fontSize = 20.sp)
         Image(
             painter = resource,
             contentDescription = null,
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier.size(16.dp)
         )
-        Spacer(modifier = Modifier.size(4.dp))
-        Text("${hero.attackRange}", fontSize = 24.sp)
+        Text(" )", fontSize = 20.sp)
     }
 }
 
@@ -174,12 +211,14 @@ fun AttributeStats(hero: Hero, attribute: HeroAttribute, isPrimary: Boolean) {
     }
 
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Image(
-            painter = painterResource(id = attribute.getIcon()),
-            contentDescription = attribute.toString(LocalContext.current),
-            modifier = Modifier.size(24.dp)
-        )
-        Spacer(modifier = Modifier.size(4.dp))
-        Text(text, fontSize = 24.sp, fontWeight = if (isPrimary) FontWeight.Bold else null)
+        Box(modifier = Modifier.size(24.dp)) {
+            Image(
+                painter = painterResource(id = attribute.getIcon()),
+                contentDescription = attribute.toString(LocalContext.current),
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+        Spacer(modifier = Modifier.size(8.dp))
+        Text(text, fontSize = 20.sp, fontWeight = if (isPrimary) FontWeight.Black else null)
     }
 }

@@ -26,9 +26,9 @@ enum class HeroAttribute(val value: String) {
 
     fun getIcon(): kotlin.Int {
         return when (this) {
-            Agi -> R.drawable.dota_agility
-            Str -> R.drawable.dota_strength
-            Int -> R.drawable.dota_intelligence
+            Agi -> R.drawable.hero_agility
+            Str -> R.drawable.hero_strength
+            Int -> R.drawable.hero_intelligence
             Unknown -> 0
         }
     }

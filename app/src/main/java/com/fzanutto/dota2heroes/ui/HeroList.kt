@@ -16,8 +16,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -27,7 +27,6 @@ import androidx.compose.material3.rememberTopAppBarScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -93,8 +92,7 @@ fun HeroListScreen(
 @Composable
 fun HeroList(heroList: List<Hero>, onClick: (Hero) -> Unit) {
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+        modifier = Modifier.fillMaxSize()
     ) {
         items(heroList) { item ->
             HeroItem(item, onClick)
@@ -102,38 +100,39 @@ fun HeroList(heroList: List<Hero>, onClick: (Hero) -> Unit) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HeroItem(hero: Hero, onClick: (Hero) -> Unit) {
-    Row(
-        modifier = Modifier
-            .wrapContentHeight()
-            .fillMaxWidth()
-            .padding(8.dp)
-            .clickable {
-                onClick(hero)
-            },
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        GlideImage(
-            imageModel = hero.img,
+    Card(modifier = Modifier.padding(8.dp)) {
+        Row(
             modifier = Modifier
-                .width(80.dp)
-                .height(80.dp)
-                .clip(RoundedCornerShape(8.dp)),
-            contentScale = ContentScale.FillHeight,
-            placeHolder = ImageBitmap.imageResource(R.drawable.dota_logo)
-        )
+                .wrapContentHeight()
+                .fillMaxWidth()
+                .clickable {
+                    onClick(hero)
+                },
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            GlideImage(
+                imageModel = hero.img,
+                modifier = Modifier
+                    .width(80.dp)
+                    .height(80.dp),
+                contentScale = ContentScale.FillHeight,
+                placeHolder = ImageBitmap.imageResource(R.drawable.dota_logo)
+            )
 
-        Spacer(Modifier.size(16.dp))
+            Spacer(Modifier.size(16.dp))
 
-        Column(modifier = Modifier) {
-            Text(hero.name, fontSize = 24.sp)
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(painter = painterResource(id = hero.primaryAttribute.getIcon()), contentDescription = "${hero.primaryAttribute.toString(LocalContext.current)} icon")
+            Column(modifier = Modifier, verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                Text(hero.name, fontSize = 24.sp)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(painter = painterResource(id = hero.primaryAttribute.getIcon()), contentDescription = "${hero.primaryAttribute.toString(LocalContext.current)} icon")
 
-                Spacer(Modifier.size(4.dp))
+                    Spacer(Modifier.size(4.dp))
 
-                Text(hero.primaryAttribute.toString(LocalContext.current), fontSize = 16.sp)
+                    Text(hero.primaryAttribute.toString(LocalContext.current), fontSize = 16.sp)
+                }
             }
         }
     }
